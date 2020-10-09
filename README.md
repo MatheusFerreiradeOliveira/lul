@@ -48,9 +48,15 @@ float a; (Declara uma variável "a" do tipo "float")
 # Algoritmo Exemplo
 
 (>'.')>
+
     float b1b2;
+    
     read(b1b2);
+    
     float cc;
+    
     cc = sqrt(b1b2);
+    
     show(cc);
+
 <('.'<)
