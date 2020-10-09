@@ -13,7 +13,8 @@ float (variáveis reais e inteiros)
 
 ### Exempo
 float a;
-Declara uma variável "a" do tipo "float"
+
+(Declara uma variável "a" do tipo "float")
 
 ## Sinais
 ### Sinais aritméticos
