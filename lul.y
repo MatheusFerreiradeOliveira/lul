@@ -90,8 +90,8 @@ cmdos: 	SCAN '(' VAR ')' {
 		| 		
 
 		FLOAT VAR {
-			VARS * aux = srch(l1,$2);
-				if (aux == NULL)
+			VARS * runner = srch(l1,$2);
+				if (runner == NULL)
 					l1 = push(l1,$2);
 				else				
 					printf ("Redeclaracao de variavel: %s\n",$2);
@@ -100,11 +100,11 @@ cmdos: 	SCAN '(' VAR ')' {
 		|
 
 		VAR '=' exp {
-			VARS * aux = srch(l1,$1);
-			if (aux == NULL)
+			VARS * runner = srch(l1,$1);
+			if (runner == NULL)
 				printf ("Variavel nao declarada: %s\n",$1);
 			else
-				aux -> valor = $3;
+				runner -> valor = $3;
 		}
 
 	;
@@ -125,11 +125,11 @@ exp: exp '+' exp {$$ = $1 + $3;}
 	}
 	|PONTOF {$$ = $1;}
 	|VAR {
-		VARS * aux = srch (l1,$1);
-			if (aux == NULL)
+		VARS * runner = srch (l1,$1);
+			if (runner == NULL)
 				printf ("Variavel nao declarada: %s\n",$1);
 			else
-				$$ = aux->valor;
+				$$ = runner->valor;
 			}
 	;
 
