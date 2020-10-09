@@ -18,7 +18,7 @@ Declara uma variável "a" do tipo "float"
 ## Sinais
 ### Sinais aritméticos
 
-"=" símbolo de atribuição\n
+"=" símbolo de atribuição
 "+" símbolo de soma
 "-" símbolo de subtração
 "/" símbolo de divisão
