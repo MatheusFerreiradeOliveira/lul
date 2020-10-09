@@ -12,21 +12,24 @@ Trabalho final de compiladores
 float (variáveis reais e inteiros)
 
 ### Exempo
-float a;
-
-(Declara uma variável "a" do tipo "float")
+float a; (Declara uma variável "a" do tipo "float")
 
 ## Sinais
 ### Sinais aritméticos
 
 "=" símbolo de atribuição
-"+" símbolo de soma
-"-" símbolo de subtração
-"/" símbolo de divisão
-"*" símbolo de multiplicação
-"^" símbolo de multiplicação
-"sqrt" token para raiz quadrada
 
+"+" símbolo de soma
+
+"-" símbolo de subtração
+
+"/" símbolo de divisão
+
+"*" símbolo de multiplicação
+
+"^" símbolo de multiplicação
+
+"sqrt" token para raiz quadrada
 
 ### 
 
