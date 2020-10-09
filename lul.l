@@ -2,6 +2,7 @@
 
 %}
 
+COMENTARIO "//"..*
 PONTOF [0-9]+.[0-9]*
 VAR [a-zA-Z]+([0-9]*[a-zA-Z]*)*
 SQRT "sqrt"
@@ -15,6 +16,8 @@ FIM "<('.'<)"
 %%
 
 {FLOAT} {return FLOAT;}
+
+{COMENTARIO} {return COMENTARIO;}
 
 {STRING} {return STRING;}
 
