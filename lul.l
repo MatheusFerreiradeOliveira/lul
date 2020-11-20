@@ -9,6 +9,10 @@ SQRT "sqrt"
 INT "integer"
 FLOAT "float"
 STRING "st"
+
+
+dasdasdas
+
 TEXTO ["][^"]*["]
 BOOL "bool"
 
