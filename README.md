@@ -14,6 +14,12 @@ read
 #### Exempo
 read(a); (Adiciona o valor da entrada na variável "a")
 
+## Comentário
+//
+
+#### Exempo
+// Comentário
+
 ## Exibir texto
 show
 
@@ -57,6 +63,8 @@ bool d; (Declara uma variável "d" do tipo "bool)
 # Algoritmo Exemplo
 
 (>'.')>
+
+    // comentario
 
     float b1b2;
     
