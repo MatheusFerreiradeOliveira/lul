@@ -1,27 +1,9 @@
 (>'.')>
     // Comentario
     float a;
-    float b;
-    float c;
-    float d;
-    float e;
-    float f;
-    float g;
-    float h;
-    read(a);
-    read(b);
-    c = a + b;
-    d = a - b;
-    e = a * b;
-    f = a / b;
-    h = a ^ b;
-    g = sqrt(a);
-    show(c);
-    show(d);
-    show(e);
-    show(f);
-    show(g);
-    show(h);
+    int b;
+    bool c;
+    st d;
 <('.'<)
 
 

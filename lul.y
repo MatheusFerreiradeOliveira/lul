@@ -11,13 +11,15 @@ void yyerror (char *s){
 
 	typedef struct variavel{
 		char name[50];
-		float valor;
+		int type;
+		char valor[50];
 		struct variavel * prox;
 	}VARIAVEL;
 	
 	//insere uma nova variável na lista de variáveis
-	VARIAVEL * push(VARIAVEL*l,char n[]){
+	VARIAVEL * push(VARIAVEL*l,char n[], int type){
 		VARIAVEL*new =(VARIAVEL*)malloc(sizeof(VARIAVEL));
+		new->type = type;
 		strcpy(new->name,n);
 		new->prox = l;
 		return new;
@@ -35,30 +37,68 @@ void yyerror (char *s){
 	}
 	
 	VARIAVEL *listaVars;
+
+
+	typedef struct ast { /*Estrutura de um nó*/
+	int nodetype;
+	struct ast *l; /*Esquerda*/
+	struct ast *r; /*Direita*/
+}Ast; 
+
+typedef struct numval { /*Estrutura de um número*/
+	int nodetype;
+	double number;
+}Numval;
+
+typedef struct varval { /*Estrutura de um nome de variável, nesse exemplo uma variável é um número no vetor var[26]*/
+	int nodetype;
+	char var[50];
+}Varval;
+
+typedef struct texto { /*Estrutura de um texto*/
+	int nodetype;
+	char txt[50];
+}TXT;	
+	
+typedef struct flow { /*Estrutura de um desvio (if/else/while)*/
+	int nodetype;
+	Ast *cond;		/*condição*/
+	Ast *tl;		/*then, ou seja, verdade*/
+	Ast *el;		/*else*/
+}Flow;
+
+typedef struct symasgn { /*Estrutura para um nó de atribuição. Para atrubior o valor de v em s*/
+	int nodetype;
+	char s[50];
+	Ast *v;
+}Symasgn;
+
 %}
 
 %union{
 	int integer;
 	float flo;
 	char str[50];
-	}
+}
 
 %token <flo>PONTOF
+%token <str>TEXTO
 %token <str>VAR
 %token SQRT
 %token STRING
 %token FLOAT
+%token INT
+%token BOOL
 %token COMENTARIO
 %token PRINT
 %token SCAN
 %token FIM
-%token INT
 %token INI
 %left '+' '-'
 %left '*' '/'
 %right '^'
 %right NEG
-%type <flo> exp
+%type <str> exp
 
 %%
 
@@ -76,15 +116,15 @@ cmdos: 	COMENTARIO {
 		| 
 
 		SCAN '(' VAR ')' {
-			float aux;
+			char aux[50];
 			printf ("Digite um valor: ");
-			scanf ("%f", &aux);
+			scanf ("%s", &aux);
 			VARIAVEL * runner = srch(listaVars, $3);
 			if(runner == NULL) {
 				printf("Variavel nao declarada: %s\n", $3);
 			}
 			else {
-				runner -> valor = aux;
+				strcpy(runner->valor,aux);
 			}
 		}
 
@@ -98,8 +138,39 @@ cmdos: 	COMENTARIO {
 
 		FLOAT VAR {
 			VARIAVEL * runner = srch(listaVars,$2);
+				if (runner == NULL){
+					listaVars = push(listaVars,$2,1);
+				}
+				else				
+					printf ("Redeclaracao de variavel: %s\n",$2);
+		}
+
+		|
+
+		INT VAR {
+			VARIAVEL * runner = srch(listaVars,$2);
 				if (runner == NULL)
-					listaVars = push(listaVars,$2);
+					listaVars = push(listaVars,$2,2);
+				else				
+					printf ("Redeclaracao de variavel: %s\n",$2);
+		}
+
+		|
+
+		BOOL VAR {
+			VARIAVEL * runner = srch(listaVars,$2);
+				if (runner == NULL)
+					listaVars = push(listaVars,$2,4);
+				else				
+					printf ("Redeclaracao de variavel: %s\n",$2);
+		}
+
+		|
+
+		STRING VAR {
+			VARIAVEL * runner = srch(listaVars,$2);
+				if (runner == NULL)
+					listaVars = push(listaVars,$2,3);
 				else				
 					printf ("Redeclaracao de variavel: %s\n",$2);
 		}
@@ -110,8 +181,12 @@ cmdos: 	COMENTARIO {
 			VARIAVEL * runner = srch(listaVars,$1);
 			if (runner == NULL)
 				printf ("Variavel nao declarada: %s\n",$1);
-			else
-				runner -> valor = $3;
+			else {
+				//char converted[50];
+				//sprintf(converted, "%.2f", $3);
+				//runner -> valor = $3;
+				strcpy(runner->valor, $3);
+			}
 		}
 
 	;
@@ -127,17 +202,35 @@ exp: exp '+' exp {$$ = $1 + $3;}
 		VARIAVEL* runner = srch(listaVars, $3);
 		if(runner == NULL) 
 			printf("Variavel naõ declarada: %s\n", $3);
-		else
-			$$ = sqrt(runner -> valor);
+		else{
+			if(runner->type == 1)
+				$$ = sqrt(atof(runner->valor));
+			else if(runner->type == 2)
+				$$ = sqrt(atoi(runner->valor));
+			else
+				printf("Essa variável não é numérica");
+		}
 	}
-	|PONTOF {$$ = $1;}
+	|TEXTO {$$ = $1;}
+	|PONTOF {$$ = atof($1);}
 	|VAR {
 		VARIAVEL * runner = srch (listaVars,$1);
 			if (runner == NULL)
 				printf ("Variavel nao declarada: %s\n",$1);
-			else
-				$$ = runner->valor;
+			else{
+				if(runner->type == 1)
+					$$ = atof(runner->valor);
+				else if(runner->type == 2)
+					$$ = atoi(runner->valor);
+				else if(runner->type == 4)
+					if(runner->valor == "true")
+						$$ = 1;
+					else
+						$$ = 0;
+				else
+					$$ = runner->valor;
 			}
+	}
 	;
 
 %%

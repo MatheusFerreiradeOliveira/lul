@@ -21,10 +21,19 @@ show
 show(a); (Exibe o valor da variável "a")
 
 ## Declaração de variável
-float (variáveis reais e inteiros)
+float (variáveis reais) representado por 1
+
+int (variáveis inteiras) representado por 2
+
+st (variáveis textuais) representado por 3
+
+bool (variáveis booleanas) representado por 4
 
 #### Exempo
 float a; (Declara uma variável "a" do tipo "float")
+int b; (Declara uma variável "b" do tipo "int")
+st c; (Declara uma variável "c" do tipo "st")
+bool d; (Declara uma variável "d" do tipo "bool)
 
 ## Sinais
 ### Sinais aritméticos
