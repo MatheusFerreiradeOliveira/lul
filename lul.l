@@ -6,15 +6,8 @@ COMENTARIO "//"..*
 PONTOF [0-9]+.[0-9]*
 VAR [a-zA-Z]+([0-9]*[a-zA-Z]*)*
 SQRT "sqrt"
-INT "integer"
-FLOAT "float"
-STRING "st"
-
-
-dasdasdas
-
+FLOAT "double"
 TEXTO ["][^"]*["]
-BOOL "bool"
 
 PRINT "show"
 SCAN "read"
@@ -26,56 +19,53 @@ WHILE "while"
 IF "if"
 ELSE "else"
 
-INI "(>'.')>"
-FIM "<('.'<)"
+INI "(>'.')><('.'<)"
+FIM "<('.'<)(>'.')>"
 %%
 
-// Tipos
-{FLOAT} {return FLOAT;}
-{STRING} {return STRING;}
-{BOOL} {return BOOL;}
-{INT} {return INT;}
 
-// funcoes
 {COMENTARIO} {return COMENTARIO;}
 {PRINT} {return PRINT;}
 {PRINTT} {return PRINTT;}
+
+{FLOAT} {return FLOAT;}
+
 {SQRT} {return SQRT;}
 {SCAN} {return SCAN;}
 {SCANS} {return SCANS;}
 
-// lul
+{WHILE} {return WHILE;}
+{IF} {return IF;}
+{ELSE} {return ELSE;}
+
 {INI} {return INI;}			
 {FIM} {return FIM;}
 
 {TEXTO} {
-	yyval.str = yytext;
+	strcpy (yylval.str,yytext);
 	return TEXTO;
 }
+
 {PONTOF} {
-	yylval.flo = atof(yytext);
+	yylval.doub = atof(yytext);
 	return PONTOF;
-	}
+}
 
 {VAR} {
 	strcpy (yylval.str,yytext);
 	return VAR;
-	}
-
-{PRINTT} {
-	return
 }
 
-{WHILE} {return WHILE};
-{IF} {return IF;}
+[-+()=/*^{};]  {return *yytext;}			
 
+">" {yylval.fn = 1; return CMP; }
+"<" {yylval.fn = 2; return CMP; }
+"<>" {yylval.fn = 3; return CMP; }
+"==" {yylval.fn = 4; return CMP; }
+">=" {yylval.fn = 5; return CMP; }
+"<=" {yylval.fn = 6; return CMP; }
 
-IF "if"
-ELSE "else"
-
-[-+()=/*^] {return *yytext;}
-	
-[\ \n\t]*	{;}
+[\ \n\t]* {;}
 
 . {;}
 

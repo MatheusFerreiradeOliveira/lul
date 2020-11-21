@@ -1,10 +1,8 @@
-(>'.')>
-    // Comentario
-    float a;
-    int b;
-    bool c;
-    st d;
-<('.'<)
-
+(>'.')><('.'<)
+    double a;
+    if ( 123 > 321 ) {
+        show(10);
+    }
+<('.'<)(>'.')>
 
     
