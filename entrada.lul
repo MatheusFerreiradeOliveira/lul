@@ -1,8 +1,20 @@
-(>'.')><('.'<)
-    double a;
-    if ( 123 > 321 ) {
-        show(10);
-    }
-<('.'<)(>'.')>
+(>'.')>
 
-    
+	float a
+	readf(a)
+	showf(a)
+
+	string c
+	reads(c)
+	shows(c)
+	shows("dasdasdsa")
+
+	int b
+	readi(b)
+	showi(b)
+
+	c = "HDUAHUDHUSA"
+
+	shows(c)
+
+<('.'<)

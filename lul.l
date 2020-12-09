@@ -1,77 +1,91 @@
 %{
+#include <string.h>
+#include <stdio.h>
 
 %}
 
-COMENTARIO "//"..*
-PONTOF [0-9]+.[0-9]*
-VAR [a-zA-Z]+([0-9]*[a-zA-Z]*)*
-SQRT "sqrt"
-FLOAT "double"
+NUM [0-9]+\.?[0-9]*
 TEXTO ["][^"]*["]
+VARS [a-zA-Z_]+[a-zA-z0-9_]*
+INI "(>'.')>"
+FIM "<('.'<)"
+	
+STRING "string"
+INT "int"
+FLOAT "float"
 
-PRINT "show"
-SCAN "read"
+SQRT "sqrt"
+IF "IF"
+ELSE "ELSE"
+WHILE "WHILE"
 
-PRINTT "showS"
-SCANS "readS"
+SHOWS "shows"
+SHOWF "showf"
+SHOWI "showi"
 
-WHILE "while"
-IF "if"
-ELSE "else"
+READS "reads"
+READF "readf"
+READI "readi"
 
-INI "(>'.')><('.'<)"
-FIM "<('.'<)(>'.')>"
+COMENTARIO "//"
+IGNORE [\s\t\n" "]
+
 %%
+{INI} { return INI; }
+{FIM} { return FIM; }
 
+{IF} { return IF; }
+{ELSE} { return ELSE; }
+{WHILE} { return WHILE; }
 
-{COMENTARIO} {return COMENTARIO;}
-{PRINT} {return PRINT;}
-{PRINTT} {return PRINTT;}
+{SHOWS} { return SHOWS; }
+{SHOWF} { return SHOWF; }
+{SHOWI} { return SHOWI; }
 
-{FLOAT} {return FLOAT;}
+{READF} { return READF; }
+{READS} { return READS; }
+{READI} { return READI; }
 
-{SQRT} {return SQRT;}
-{SCAN} {return SCAN;}
-{SCANS} {return SCANS;}
+{STRING} { return STRING; }
+{INT} { return INT; }
+{FLOAT} { return FLOAT; }
 
-{WHILE} {return WHILE;}
-{IF} {return IF;}
-{ELSE} {return ELSE;}
+{SQRT} { return SQRT; }
 
-{INI} {return INI;}			
-{FIM} {return FIM;}
+{VARS} {
+	strcpy(yylval.str,yytext);
+	return VARS;
+}
 
 {TEXTO} {
-	strcpy (yylval.str,yytext);
-	return TEXTO;
+    char aux[50];
+    strncpy ( aux, &yytext[1], strlen(yytext)-2);
+    aux[strlen(yytext)-2]='\0';
+    strcpy (yylval.str, aux);
+	return TEXTO;  
 }
 
-{PONTOF} {
-	yylval.doub = atof(yytext);
-	return PONTOF;
-}
+{NUM} {
+	yylval.flo = atof(yytext);
+	return NUM;
+	}
 
-{VAR} {
-	strcpy (yylval.str,yytext);
-	return VAR;
-}
+[-+()=%/*^,{}:\[\]] {return *yytext;}
 
-[-+()=/*^{};]  {return *yytext;}			
+{COMENTARIO}..*|"/**"(..*|{IGNORE})*"*/" {;}
 
 ">" {yylval.fn = 1; return CMP; }
 "<" {yylval.fn = 2; return CMP; }
-"<>" {yylval.fn = 3; return CMP; }
+"!=" {yylval.fn = 3; return CMP; }
 "==" {yylval.fn = 4; return CMP; }
 ">=" {yylval.fn = 5; return CMP; }
 "<=" {yylval.fn = 6; return CMP; }
 
-[\ \n\t]* {;}
-
+{IGNORE} {;}
 . {;}
 
 %%
 
-int yywrap()
-{
+int yywrap() {
    return 1;
 }
