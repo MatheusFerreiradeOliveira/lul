@@ -50,7 +50,7 @@ stmt: // IF '(' exp ')' '{' list '}' %prec IFX {$$ = newflow('I', $3, $6, NULL);
 	// | WHILE '(' exp ')' '{' list '}' {$$ = newflow('W', $3, $6, NULL);}
 
 	| VARS '=' exp %prec VARPREC { $$ = newasgn($1,$3);}
-	| VARS '=' TEXTO %prec VARPREC2 { $$ = newasgnS($1,newValorValS($3));}
+	| VARS '=' TEXTO %prec VARPREC2 { $$ = newasgnS($1, newast('$', newValorValS($3), NULL));}
 
 	| INT VARS %prec decint { $$ = newvari('U',$2);}
     | FLOAT VARS %prec decfloat { $$ = newvari('V',$2);}

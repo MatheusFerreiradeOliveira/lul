@@ -1,17 +1,8 @@
 (>'.')>
 
-	float a
-	readf(a)
-	showf(a)
-
 	string c
 	reads(c)
 	shows(c)
-	shows("dasdasdsa")
-
-	int b
-	readi(b)
-	showi(b)
 
 	c = "HDUAHUDHUSA"
 

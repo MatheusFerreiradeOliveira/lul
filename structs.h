@@ -368,7 +368,7 @@ char *parseSTR(Ast *a)
     switch (a->nodetype)
     {
     case '$':
-        return ((Varval *)a->l)->var;
+        return ((TXT *)a->l)->txt;
         break;
     case '7':
         value = evalAux(a->l);
@@ -493,8 +493,12 @@ double eval(Ast *a)
         break;
 
     case 'a':
-
-
+        //v = eval(((Symasgn *)a)->v); /*Recupera o valor*/
+        strcpy(v1,  parseSTR(((Symasgn *)a)->v));
+        aux = srch(l1, ((Symasgn *)a)->s);
+        strcpy(aux->valors, v1);
+        break;
+        
     case 'I': /*CASO IF*/
         if (eval(((Flow *)a)->cond) != 0)
         {                                  /*executa a condição / teste*/
