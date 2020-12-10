@@ -171,7 +171,7 @@ Ast *newcmp(int cmptype, Ast *l, Ast *r)
         printf("out of space");
         exit(0);
     }
-    a->nodetype = '0' + cmptype; /*Para pegar o tipe de teste, definido no arquivo.l e utilizar na função eval()*/
+    a->nodetype = '0' + cmptype;
     a->l = l;
     a->r = r;
     return a;
@@ -293,10 +293,7 @@ double evalAux(Ast *a)
         break; /*Recupera um número*/
     case 'N':
         aux1 = srch(l1, ((Varval *)a)->var);
-        if (aux1->nodetype == 1 || aux1->nodetype == 0)
-            v = aux1->valor;
-        else
-            printf("Variável não é do tipo Numérico\n");
+        v = aux1->valor;
         break;
 
     case 'n':
@@ -476,20 +473,7 @@ double eval(Ast *a)
     case '=':
         v = eval(((Symasgn *)a)->v); /*Recupera o valor*/
         aux = srch(l1, ((Symasgn *)a)->s);
-        if (aux->nodetype == 1)
-        { //lembrar de verificar os demais tipos
-            aux->valor = v;
-        }
-        else
-        {
-            // ((Varval *)a)->length
-            // printf("=> %lf, %lf <== \n", ((Varval *)a)->length, ((Symasgn *)a)->indice);
-            value = eval(((Symasgn *)a)->indice);
-            // printf(">>> %.1lf\n", value);
-            //printf("vetor: %d", ((Symasgn *)a)->pos);
-            aux->vet[(int)value] = v;
-            // printf("==%lf\n", aux->vet[(int)value]);
-        }
+        aux->valor = v;
         break;
 
     case 'a':

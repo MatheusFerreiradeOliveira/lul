@@ -1,11 +1,19 @@
 (>'.')>
+	
+	// Lujhonsons
 
-	string c
-	reads(c)
-	shows(c)
+	shows("FATORIAL")	
+	
+	int n
 
-	c = "HDUAHUDHUSA"
+	readi(n)
 
-	shows(c)
+	int ans = 1
 
+	while(n > 0) {
+		ans = ans * n
+		n = n - 1;
+	}
+		
+	showi(ans)
 <('.'<)
